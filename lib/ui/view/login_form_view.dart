@@ -32,9 +32,20 @@ class _LoginFormViewState extends State<LoginFormView> {
       widget.role,
     );
     if (success) {
-      // On success navigate to the combined view for now. In a real app
-      // you would navigate based on role to the appropriate landing page.
-      Navigator.pushNamedAndRemoveUntil(context, 'combined', (route) => false);
+      // After a successful login, navigate to the appropriate home
+      // screen based on the user's role. Customers are taken to
+      // the customer home page, employees to the employee home page,
+      // and admins/owners to the owner home page.
+      if (widget.role == 'customer') {
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'customer_home', (route) => false);
+      } else if (widget.role == 'admin') {
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'owner_home', (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'employee_home', (route) => false);
+      }
     }
   }
 
@@ -46,9 +57,13 @@ class _LoginFormViewState extends State<LoginFormView> {
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(widget.role == 'customer'
-                  ? 'Kunden-Login'
-                  : 'Mitarbeiter-Login'),
+              title: Text(
+                widget.role == 'customer'
+                    ? 'Kunden-Login'
+                    : (widget.role == 'admin'
+                        ? 'Admin-Login'
+                        : 'Mitarbeiter-Login'),
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
