@@ -11,6 +11,13 @@ class MultiplatSharedPrefs {
   static const _prefsFile = 'multiplat_sharedprefs.txt';
   static String _prefsFullPath = '';
 
+  // Keys for storing auth token and user role. These values are saved
+  // using SharedPreferences on all platforms except Windows/Linux desktop,
+  // where this app writes to a temporary file for a single integer. For
+  // authentication we only support SharedPreferences.
+  static const String _tokenKey = 'authToken';
+  static const String _roleKey = 'userRole';
+
   Future<int> getSelectedItemIndex() async {
     if (_useFileSystem) {
       return _readFile();
@@ -58,6 +65,31 @@ class MultiplatSharedPrefs {
       // swallow error
     }
     return true;
+  }
+
+  /// Saves a JWT or session token returned by the API. Uses
+  /// SharedPreferences across all platforms. Returns true on success.
+  Future<bool> saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(_tokenKey, token);
+  }
+
+  /// Retrieves the stored authentication token, or null if none is stored.
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenKey);
+  }
+
+  /// Saves the role of the currently authenticated user (customer, employee, admin).
+  Future<bool> saveRole(String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(_roleKey, role);
+  }
+
+  /// Retrieves the stored user role, or null if none is stored.
+  Future<String?> getRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_roleKey);
   }
 
   String _getFullPath() {

@@ -15,14 +15,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Use the initialRoute defined in router.dart to determine the first page
+    // shown to the user. This is typically 'login' for new users.
     if (isCupertino()) {
-      return const CupertinoApp(
+      return CupertinoApp(
         debugShowCheckedModeBanner: false,
         title: 'multiplat',
-        theme: CupertinoThemeData(
+        theme: const CupertinoThemeData(
           primaryColor: Colors.blueGrey,
         ),
-        initialRoute: 'combined',
+        initialRoute: initialRoute,
         onGenerateRoute: MultiPlatRouter.generateRoute,
       );
     }
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      initialRoute: 'combined',
+      initialRoute: initialRoute,
       onGenerateRoute: MultiPlatRouter.generateRoute,
     );
   }

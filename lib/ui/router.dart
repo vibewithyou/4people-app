@@ -5,12 +5,25 @@ import 'package:multiplat/ui/view/chart_view.dart';
 import 'package:multiplat/ui/view/combined_view.dart';
 import 'package:multiplat/ui/view/item_detail_view.dart';
 import 'package:multiplat/ui/view/items_view.dart';
+import 'package:multiplat/ui/view/login_selection_view.dart';
+import 'package:multiplat/ui/view/login_form_view.dart';
+import 'package:multiplat/ui/view/register_view.dart';
 
-const String initialRoute = "login";
+// The initial route for the application. We direct users to the login flow
+// where they can choose to log in as a customer or an employee and register a new account.
+const String initialRoute = 'login';
 
 class MultiPlatRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case 'login':
+        return _platformRoute(() => const LoginSelectionView());
+      case 'loginForm':
+        // Expect a role argument (customer or employee). If none provided, default to customer.
+        final role = settings.arguments as String? ?? 'customer';
+        return _platformRoute(() => LoginFormView(role: role));
+      case 'register':
+        return _platformRoute(() => const RegisterView());
       case 'home':
         return _platformRoute(() => const ItemsView());
       case 'chart':
