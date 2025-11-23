@@ -18,6 +18,7 @@ import 'package:multiplat/ui/view/employee_time_tracking_view.dart';
 import 'package:multiplat/ui/view/employee_leave_request_view.dart';
 import 'package:multiplat/ui/view/owner_home_view.dart';
 import 'package:multiplat/ui/view/owner_manage_employees_view.dart';
+import 'package:multiplat/ui/view/owner_manage_services_view.dart';
 import 'package:multiplat/ui/view/owner_manage_schedule_view.dart';
 import 'package:multiplat/ui/view/owner_manage_bookings_view.dart';
 import 'package:multiplat/ui/view/owner_manage_leave_requests_view.dart';
@@ -67,6 +68,8 @@ class MultiPlatRouter {
         return _platformRoute(() => const OwnerHomeView());
       case 'owner_manage_employees':
         return _platformRoute(() => const OwnerManageEmployeesView());
+      case 'owner_manage_services':
+        return _platformRoute(() => const OwnerManageServicesView());
       case 'owner_manage_schedule':
         return _platformRoute(() => const OwnerManageScheduleView());
       case 'owner_manage_bookings':

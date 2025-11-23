@@ -28,6 +28,13 @@ class AuthService {
           final prefs = locator<MultiplatSharedPrefs>();
           await prefs.saveToken(decoded['token'] ?? '');
           await prefs.saveRole(role);
+          // Persist the userId so the app can reference the current user in
+          // later operations (e.g. creating bookings). The login
+          // response includes userId as a string or integer.
+          final userId = decoded['userId'];
+          if (userId != null) {
+            await prefs.saveUserId(userId.toString());
+          }
           return true;
         }
       }

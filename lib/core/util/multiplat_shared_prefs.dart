@@ -17,6 +17,12 @@ class MultiplatSharedPrefs {
   // authentication we only support SharedPreferences.
   static const String _tokenKey = 'authToken';
   static const String _roleKey = 'userRole';
+  // Key for storing the current logged in user ID. This allows the
+  // application to identify the user (customer, employee or admin) when
+  // making subsequent API calls, such as booking an appointment. The
+  // backend returns the userId in the login response and we persist it
+  // here in SharedPreferences on all platforms.
+  static const String _userIdKey = 'userId';
 
   Future<int> getSelectedItemIndex() async {
     if (_useFileSystem) {
@@ -90,6 +96,22 @@ class MultiplatSharedPrefs {
   Future<String?> getRole() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_roleKey);
+  }
+
+  /// Saves the userId of the currently authenticated user. The userId
+  /// originates from the backend login response. Returns true on
+  /// success.
+  Future<bool> saveUserId(String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString(_userIdKey, userId);
+  }
+
+  /// Retrieves the stored userId, or null if none is stored. Useful
+  /// when creating bookings or performing operations that require
+  /// identifying the current user.
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userIdKey);
   }
 
   String _getFullPath() {

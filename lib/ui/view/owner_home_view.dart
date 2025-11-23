@@ -31,6 +31,13 @@ class OwnerHomeView extends StatelessWidget {
               child: const Text('Mitarbeiter verwalten'),
             ),
             const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, 'owner_manage_services');
+          },
+          child: const Text('Services verwalten'),
+        ),
+        const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, 'owner_manage_schedule');
